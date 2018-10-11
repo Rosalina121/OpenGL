@@ -1,33 +1,17 @@
-/*************************************************************************************/
-
-
-// Troch� bardziej skomplikowany program wykorzystuj�cy funkcje biblioteki OpenGL
-
- 
-
-/*************************************************************************************/
-
 #include <windows.h>
 #include <time.h>
 #include <gl/gl.h>
 
 #include <gl/glut.h>
 
-/*************************************************************************************/
-
-
-// Funkcaja okre�laj�ca, co ma by� rysowane
-// (zawsze wywo�ywana, gdy trzeba przerysowa� scen�)
 
 GLint poziom = 3;
 GLfloat szerokosc = 100;
 GLfloat st_deformacji = 3;
 
-void rysuj_dywan( GLfloat x, GLfloat y, GLfloat szerokosc, GLint poziom)
-{
+void rysuj_dywan( GLfloat x, GLfloat y, GLfloat szerokosc, GLint poziom) {
 	
-	if(poziom > 0)
-	{
+	if (poziom > 0) {
 		szerokosc = szerokosc/3;
 		rysuj_dywan(x,y,szerokosc,poziom-1);
 		rysuj_dywan(x-szerokosc,y,szerokosc,poziom-1);
@@ -39,8 +23,7 @@ void rysuj_dywan( GLfloat x, GLfloat y, GLfloat szerokosc, GLint poziom)
         rysuj_dywan(x-2*szerokosc,y-2*szerokosc,szerokosc,poziom-1);
 	}
 
-	else
-	{
+	else {
 		GLfloat def = (rand() % 20)*st_deformacji /(10*szerokosc);
 		glBegin(GL_POLYGON);                                                 
 			glColor3f(((rand() %100)*0.01), ((rand() %100)*0.01), ((rand() %100)*0.01));
@@ -55,9 +38,7 @@ void rysuj_dywan( GLfloat x, GLfloat y, GLfloat szerokosc, GLint poziom)
 	}
 }
 
-void RenderScene(void)
-
-{
+void RenderScene(void) {
 
     glClear(GL_COLOR_BUFFER_BIT);
     // Czyszczenie okna aktualnym kolorem czyszcz�cym
@@ -74,37 +55,14 @@ void RenderScene(void)
 
 }
 
-/*************************************************************************************/
-
-
-// Funkcja ustalaj�ca stan renderowania
-
-
- 
-
-void MyInit(void)
-
-{
+void MyInit(void) {
 
    glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
    // Kolor okna wn�trza okna - ustawiono na szary
 
 }
 
-/*************************************************************************************/
-
-
-// Funkcja s�u��ca do kontroli zachowania proporcji rysowanych obiekt�w
-// niezale�nie od rozmiar�w okna graficznego
-
-
-
-void ChangeSize(GLsizei horizontal, GLsizei vertical)
-
-// Parametry horizontal i vertical (szeroko�� i wysoko�� okna) s�
-// przekazywane do funkcji za ka�dym razem, gdy zmieni si� rozmiar okna
-
-{
+void ChangeSize(GLsizei horizontal, GLsizei vertical) {
 
      GLfloat AspectRatio;
 
@@ -112,7 +70,7 @@ void ChangeSize(GLsizei horizontal, GLsizei vertical)
 
  
 
-    if(vertical==0)
+    if (vertical==0)
     // Zabezpieczenie pzred dzieleniem przez 0
 
         vertical = 1;
@@ -136,11 +94,11 @@ void ChangeSize(GLsizei horizontal, GLsizei vertical)
     // Do okre�lenia okna obserwatora s�u�y funkcja glOrtho(...)
 
 
-    if(horizontal <= vertical)
+    if (horizontal <= vertical)
 
     glOrtho(-100.0,100.0,-100.0/AspectRatio,100.0/AspectRatio,1.0,-1.0);  
 
-     else
+    else
 
     glOrtho(-100.0*AspectRatio,100.0*AspectRatio,-100.0,100.0,1.0,-1.0);
 
@@ -153,17 +111,7 @@ void ChangeSize(GLsizei horizontal, GLsizei vertical)
 
 }
 
-/*************************************************************************************/
-
-
-// G��wny punkt wej�cia programu. Program dzia�a w trybie konsoli
-
-
- 
-
-void main(void)
-
-{
+void main(void) {
 
    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
    // Ustawienie trybu wy�wietlania
@@ -191,7 +139,4 @@ void main(void)
 
    glutMainLoop();
    // Funkcja uruchamia szkielet biblioteki GLUT
-
 }
-
-/*************************************************************************************/
