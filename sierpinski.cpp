@@ -5,10 +5,11 @@
 #include <gl/glut.h>
 #include <iostream>
 
-GLint poziom = 7;
+GLint poziom = 5;
 GLfloat szerokosc = 100;
 GLfloat st_deformacji = 0;
 GLint iteracje = 10000000;
+
 // x' = ax + by + c
 // y' = dx + ey + f
 
@@ -44,12 +45,11 @@ void paprotka(GLfloat x, GLfloat y, GLint iteracje) {
 
 void plasma(GLfloat x, GLfloat y, GLfloat szerokosc, GLint poziom) {
 	if (poziom > 0) {
-		szerokosc = szerokosc / 2;
+		//szerokosc = szerokosc / ;
 		plasma(x, y, szerokosc, poziom - 1);
 		plasma(x - szerokosc, y, szerokosc, poziom - 1);
 		plasma(x, y - szerokosc, szerokosc, poziom - 1);
 		plasma(x - szerokosc, y - szerokosc, szerokosc, poziom - 1);
-
 	}
 	else {
 		glBegin(GL_POLYGON);
@@ -57,9 +57,9 @@ void plasma(GLfloat x, GLfloat y, GLfloat szerokosc, GLint poziom) {
 		glColor3f(((rand() % 100)*0.01), ((rand() % 100)*0.01), ((rand() % 100)*0.01));
 		glVertex2f(x, y);
 		glColor3f(((rand() % 100)*0.01), ((rand() % 100)*0.01), ((rand() % 100)*0.01));
-		glVertex2f(x, y - szerokosc);
+		glVertex2f(x, y - szerokosc/2);
 		glColor3f(((rand() % 100)*0.01), ((rand() % 100)*0.01), ((rand() % 100)*0.01));
-		glVertex2f(x - szerokosc, y - szerokosc);
+		glVertex2f(x - szerokosc/2, y - szerokosc);
 		glColor3f(((rand() % 100)*0.01), ((rand() % 100)*0.01), ((rand() % 100)*0.01));
 		glVertex2f(x - szerokosc, y);
 		glEnd();
@@ -94,6 +94,27 @@ void rysuj_dywan(GLfloat x, GLfloat y, GLfloat szerokosc, GLint poziom) {
 	}
 }
 
+void rysuj_trojkat(GLfloat x, GLfloat y, GLfloat szerokosc, GLint poziom) {
+	if (poziom > 0) {
+		szerokosc = szerokosc/2;
+		rysuj_trojkat(x, y, szerokosc, poziom - 1);
+		rysuj_trojkat(x - szerokosc/2, y - szerokosc, szerokosc, poziom - 1);
+		rysuj_trojkat(x + szerokosc/2, y - szerokosc, szerokosc, poziom - 1);
+	}
+	else {
+		GLfloat def = (rand() % 20)*st_deformacji / (10 * szerokosc);
+		glBegin(GL_POLYGON);
+		//glColor3f(0.8f, 0.7f, 0.6f);
+		glColor3f(((rand() % 100)*0.01), ((rand() % 100)*0.01), ((rand() % 100)*0.01));
+		glVertex2f(x - szerokosc/2 + def, y + def);
+		glColor3f(((rand() % 100)*0.01), ((rand() % 100)*0.01), ((rand() % 100)*0.01));
+		glVertex2f(x - szerokosc + def, y - szerokosc + def);
+		glColor3f(((rand() % 100)*0.01), ((rand() % 100)*0.01), ((rand() % 100)*0.01));
+		glVertex2f(x + def, y - szerokosc + def);
+		glEnd();
+	}
+}
+
 void RenderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -101,7 +122,8 @@ void RenderScene(void) {
 
 	//plasma(50, 50, szerokosc, poziom);
 
-	paprotka(0, 0, iteracje);
+	//paprotka(0, 0, iteracje);
+	rysuj_trojkat(0, 50, szerokosc, poziom);
 
 	glFlush();
 }
