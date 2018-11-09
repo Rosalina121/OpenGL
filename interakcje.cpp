@@ -1,4 +1,3 @@
-#include "pch.h"
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glut.h>
@@ -40,7 +39,7 @@ void Mouse(int btn, int state, int x, int y) {
 
 		status = 1;          // wcięnięty został lewy klawisz myszy
 	}
-	else if(btn == GLUT_RIGHT_BUTTON && state == GLUT_DOWN){         
+	else if (btn == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
 		y_pos_old = y;
 		status = 2;
 	}
@@ -121,8 +120,8 @@ const int N = 50;
 struct Punkt eggPoints[N][N];
 
 float krok = 1.0 / N;
-float theta=0.0;
-float fi=0.0;
+float theta = 0.0;
+float fi = 0.0;
 
 
 
@@ -148,203 +147,203 @@ void Egg() {
 	switch (model) {
 
 		//punkty
-		case 1:
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
-					glBegin(GL_POINTS);
-					glColor3f(1.0f, 0.0f, 0.0f);
+	case 1:
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				glBegin(GL_POINTS);
+				glColor3f(1.0f, 0.0f, 0.0f);
+				glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+				glEnd();
+			}
+		}
+		break;
+
+		//linie
+	case 2:
+		glBegin(GL_LINES);
+		glColor3f(1.0f, 1.0f, 1.0f);
+
+		//poziome
+		for (int i = 0; i < N; i++) {
+			int pom = N - i;
+			for (int j = 0; j < N - 1; j++) {
+				glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+				glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
+			}
+			if (pom != N) {
+				glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
+				glVertex3f(eggPoints[pom][N - 1].x, eggPoints[pom][N - 1].y - 5, eggPoints[pom][N - 1].z);
+			}
+		}
+
+		//pionowe
+		glColor3f(1.0f, 1.0f, 0.0f);
+		for (int i = 0; i < N; i++) {
+			int pom = N - i;
+			for (int j = 0; j < N; j++) {
+				if (i == N - 1) {
 					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-					glEnd();
+					glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
+				}
+				else {
+					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+					glVertex3f(eggPoints[i + 1][j].x, eggPoints[i + 1][j].y - 5, eggPoints[i + 1][j].z);
 				}
 			}
-			break;
+		}
 
-			//linie
-		case 2:
-			glBegin(GL_LINES);
-			glColor3f(1.0f, 1.0f, 1.0f);
-
-			//poziome
-			for (int i = 0; i < N; i++) {
-				int pom = N - i;
-				for (int j = 0; j < N - 1; j++) {
+		//na skos
+		glColor3f(0.3f, 0.0f, 0.40f);
+		for (int i = N / 2; i < N; i++) {
+			int pom = N - i;
+			for (int j = 0; j < N - 1; j++) {
+				if (i == N - 1) {
 					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-					glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
+					glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
+				}
+				else {
+					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+					glVertex3f(eggPoints[i + 1][j + 1].x, eggPoints[i + 1][j + 1].y - 5, eggPoints[i + 1][j + 1].z);
 				}
 				if (pom != N) {
 					glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
-					glVertex3f(eggPoints[pom][N - 1].x, eggPoints[pom][N - 1].y - 5, eggPoints[pom][N - 1].z);
+					glVertex3f(eggPoints[pom + 1][N - 1].x, eggPoints[pom + 1][N - 1].y - 5, eggPoints[pom + 1][N - 1].z);
 				}
 			}
+		}
+		glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
+		glVertex3f(eggPoints[1][N - 1].x, eggPoints[1][N - 1].y - 5, eggPoints[1][N - 1].z);
 
-			//pionowe
-			glColor3f(1.0f, 1.0f, 0.0f);
-			for (int i = 0; i < N; i++) {
-				int pom = N - i;
-				for (int j = 0; j < N; j++) {
-					if (i == N - 1) {
-						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
-					}
-					else {
-						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glVertex3f(eggPoints[i + 1][j].x, eggPoints[i + 1][j].y - 5, eggPoints[i + 1][j].z);
-					}
+		glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
+		glVertex3f(eggPoints[N - 1][N - 1].x, eggPoints[N - 1][N - 1].y - 5, eggPoints[N - 1][N - 1].z);
+		for (int i = 1; i < N / 2 + 1; i++) {
+			int pom = N - i;
+			for (int j = 0; j < N - 1; j++) {
+				glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+				glVertex3f(eggPoints[i - 1][j + 1].x, eggPoints[i - 1][j + 1].y - 5, eggPoints[i - 1][j + 1].z);
+				if (pom != N) {
+					glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
+					glVertex3f(eggPoints[pom - 1][N - 1].x, eggPoints[pom - 1][N - 1].y - 5, eggPoints[pom - 1][N - 1].z);
 				}
 			}
+		}
 
-			//na skos
-			glColor3f(0.3f, 0.0f, 0.40f);
-			for (int i = N / 2; i < N; i++) {
-				int pom = N - i;
-				for (int j = 0; j < N - 1; j++) {
-					if (i == N - 1) {
-						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
-					}
-					else {
-						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glVertex3f(eggPoints[i + 1][j + 1].x, eggPoints[i + 1][j + 1].y - 5, eggPoints[i + 1][j + 1].z);
-					}
-					if (pom != N) {
-						glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
-						glVertex3f(eggPoints[pom + 1][N - 1].x, eggPoints[pom + 1][N - 1].y - 5, eggPoints[pom + 1][N - 1].z);
-					}
-				}
-			}
-			glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
-			glVertex3f(eggPoints[1][N - 1].x, eggPoints[1][N - 1].y - 5, eggPoints[1][N - 1].z);
+		glEnd();
+		break;
 
-			glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
-			glVertex3f(eggPoints[N - 1][N - 1].x, eggPoints[N - 1][N - 1].y - 5, eggPoints[N - 1][N - 1].z);
-			for (int i = 1; i < N / 2 + 1; i++) {
-				int pom = N - i;
-				for (int j = 0; j < N - 1; j++) {
+		//kolor
+	case 3:
+		glBegin(GL_TRIANGLES);
+		for (int i = N / 2; i < N; i++) {
+			int pom = N - i;
+			for (int j = 0; j < N - 1; j++) {
+				if (i == N - 1) {
+					glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
 					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-					glVertex3f(eggPoints[i - 1][j + 1].x, eggPoints[i - 1][j + 1].y - 5, eggPoints[i - 1][j + 1].z);
-					if (pom != N) {
-						glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
-						glVertex3f(eggPoints[pom - 1][N - 1].x, eggPoints[pom - 1][N - 1].y - 5, eggPoints[pom - 1][N - 1].z);
-					}
+					glColor3f(eggPoints[i][j + 1].xRGB, eggPoints[i][j + 1].yRGB, eggPoints[i][j + 1].zRGB);
+					glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
+					glColor3f(eggPoints[0][0].xRGB, eggPoints[0][0].yRGB, eggPoints[0][0].zRGB);
+					glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
 				}
-			}
+				else {
+					glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
+					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+					glColor3f(eggPoints[i + 1][j].xRGB, eggPoints[i + 1][j].yRGB, eggPoints[i + 1][j].zRGB);
+					glVertex3f(eggPoints[i + 1][j].x, eggPoints[i + 1][j].y - 5, eggPoints[i + 1][j].z);
+					glColor3f(eggPoints[i + 1][j + 1].xRGB, eggPoints[i + 1][j + 1].yRGB, eggPoints[i + 1][j + 1].zRGB);
+					glVertex3f(eggPoints[i + 1][j + 1].x, eggPoints[i + 1][j + 1].y - 5, eggPoints[i + 1][j + 1].z);
 
-			glEnd();
-			break;
+					glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
+					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+					glColor3f(eggPoints[i][j + 1].xRGB, eggPoints[i][j + 1].yRGB, eggPoints[i][j + 1].zRGB);
+					glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
+					glColor3f(eggPoints[i + 1][j + 1].xRGB, eggPoints[i + 1][j + 1].yRGB, eggPoints[i + 1][j + 1].zRGB);
+					glVertex3f(eggPoints[i + 1][j + 1].x, eggPoints[i + 1][j + 1].y - 5, eggPoints[i + 1][j + 1].z);
+				}
+				if (pom != N) {
+					glColor3f(eggPoints[i][0].xRGB, eggPoints[i][0].yRGB, eggPoints[i][0].zRGB);
+					glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
+					glColor3f(eggPoints[pom][N - 1].xRGB, eggPoints[pom][N - 1].yRGB, eggPoints[pom][N - 1].zRGB);
+					glVertex3f(eggPoints[pom][N - 1].x, eggPoints[pom][N - 1].y - 5, eggPoints[pom][N - 1].z);
+					glColor3f(eggPoints[pom + 1][N - 1].xRGB, eggPoints[pom + 1][N - 1].yRGB, eggPoints[pom + 1][N - 1].zRGB);
+					glVertex3f(eggPoints[pom + 1][N - 1].x, eggPoints[pom + 1][N - 1].y - 5, eggPoints[pom + 1][N - 1].z);
 
-			//kolor
-		case 3:
-			glBegin(GL_TRIANGLES);
-			for (int i = N / 2; i < N; i++) {
-				int pom = N - i;
-				for (int j = 0; j < N - 1; j++) {
-					if (i == N - 1) {
-						glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
-						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glColor3f(eggPoints[i][j + 1].xRGB, eggPoints[i][j + 1].yRGB, eggPoints[i][j + 1].zRGB);
-						glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
-						glColor3f(eggPoints[0][0].xRGB, eggPoints[0][0].yRGB, eggPoints[0][0].zRGB);
-						glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
-					}
-					else {
-						glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
-						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glColor3f(eggPoints[i + 1][j].xRGB, eggPoints[i + 1][j].yRGB, eggPoints[i + 1][j].zRGB);
-						glVertex3f(eggPoints[i + 1][j].x, eggPoints[i + 1][j].y - 5, eggPoints[i + 1][j].z);
-						glColor3f(eggPoints[i + 1][j + 1].xRGB, eggPoints[i + 1][j + 1].yRGB, eggPoints[i + 1][j + 1].zRGB);
-						glVertex3f(eggPoints[i + 1][j + 1].x, eggPoints[i + 1][j + 1].y - 5, eggPoints[i + 1][j + 1].z);
-
-						glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
-						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glColor3f(eggPoints[i][j + 1].xRGB, eggPoints[i][j + 1].yRGB, eggPoints[i][j + 1].zRGB);
-						glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
-						glColor3f(eggPoints[i + 1][j + 1].xRGB, eggPoints[i + 1][j + 1].yRGB, eggPoints[i + 1][j + 1].zRGB);
-						glVertex3f(eggPoints[i + 1][j + 1].x, eggPoints[i + 1][j + 1].y - 5, eggPoints[i + 1][j + 1].z);
-					}
-					if (pom != N) {
+					if (i != N / 2) {
 						glColor3f(eggPoints[i][0].xRGB, eggPoints[i][0].yRGB, eggPoints[i][0].zRGB);
 						glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
-						glColor3f(eggPoints[pom][N - 1].xRGB, eggPoints[pom][N - 1].yRGB, eggPoints[pom][N - 1].zRGB);
-						glVertex3f(eggPoints[pom][N - 1].x, eggPoints[pom][N - 1].y - 5, eggPoints[pom][N - 1].z);
+						glColor3f(eggPoints[i - 1][0].xRGB, eggPoints[i - 1][0].yRGB, eggPoints[i - 1][0].zRGB);
+						glVertex3f(eggPoints[i - 1][0].x, eggPoints[i - 1][0].y - 5, eggPoints[i - 1][0].z);
 						glColor3f(eggPoints[pom + 1][N - 1].xRGB, eggPoints[pom + 1][N - 1].yRGB, eggPoints[pom + 1][N - 1].zRGB);
 						glVertex3f(eggPoints[pom + 1][N - 1].x, eggPoints[pom + 1][N - 1].y - 5, eggPoints[pom + 1][N - 1].z);
-
-						if (i != N / 2) {
-							glColor3f(eggPoints[i][0].xRGB, eggPoints[i][0].yRGB, eggPoints[i][0].zRGB);
-							glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
-							glColor3f(eggPoints[i - 1][0].xRGB, eggPoints[i - 1][0].yRGB, eggPoints[i - 1][0].zRGB);
-							glVertex3f(eggPoints[i - 1][0].x, eggPoints[i - 1][0].y - 5, eggPoints[i - 1][0].z);
-							glColor3f(eggPoints[pom + 1][N - 1].xRGB, eggPoints[pom + 1][N - 1].yRGB, eggPoints[pom + 1][N - 1].zRGB);
-							glVertex3f(eggPoints[pom + 1][N - 1].x, eggPoints[pom + 1][N - 1].y - 5, eggPoints[pom + 1][N - 1].z);
-						}
 					}
 				}
 			}
-			glColor3f(eggPoints[0][0].xRGB, eggPoints[0][0].yRGB, eggPoints[0][0].zRGB);
-			glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
-			glColor3f(eggPoints[N - 1][0].xRGB, eggPoints[N - 1][0].yRGB, eggPoints[N - 1][0].zRGB);
-			glVertex3f(eggPoints[N - 1][0].x, eggPoints[N - 1][0].y - 5, eggPoints[N - 1][0].z);
-			glColor3f(eggPoints[1][N - 1].xRGB, eggPoints[1][N - 1].yRGB, eggPoints[1][N - 1].zRGB);
-			glVertex3f(eggPoints[1][N - 1].x, eggPoints[1][N - 1].y - 5, eggPoints[1][N - 1].z);
+		}
+		glColor3f(eggPoints[0][0].xRGB, eggPoints[0][0].yRGB, eggPoints[0][0].zRGB);
+		glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
+		glColor3f(eggPoints[N - 1][0].xRGB, eggPoints[N - 1][0].yRGB, eggPoints[N - 1][0].zRGB);
+		glVertex3f(eggPoints[N - 1][0].x, eggPoints[N - 1][0].y - 5, eggPoints[N - 1][0].z);
+		glColor3f(eggPoints[1][N - 1].xRGB, eggPoints[1][N - 1].yRGB, eggPoints[1][N - 1].zRGB);
+		glVertex3f(eggPoints[1][N - 1].x, eggPoints[1][N - 1].y - 5, eggPoints[1][N - 1].z);
 
 
-			glColor3f(eggPoints[0][0].xRGB, eggPoints[0][0].yRGB, eggPoints[0][0].zRGB);
-			glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
-			glColor3f(eggPoints[1][0].xRGB, eggPoints[1][0].yRGB, eggPoints[1][0].zRGB);
-			glVertex3f(eggPoints[1][0].x, eggPoints[1][0].y - 5, eggPoints[1][0].z);
-			glColor3f(eggPoints[N - 1][N - 1].xRGB, eggPoints[N - 1][N - 1].yRGB, eggPoints[N - 1][N - 1].zRGB);
-			glVertex3f(eggPoints[N - 1][N - 1].x, eggPoints[N - 1][N - 1].y - 5, eggPoints[N - 1][N - 1].z);
+		glColor3f(eggPoints[0][0].xRGB, eggPoints[0][0].yRGB, eggPoints[0][0].zRGB);
+		glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
+		glColor3f(eggPoints[1][0].xRGB, eggPoints[1][0].yRGB, eggPoints[1][0].zRGB);
+		glVertex3f(eggPoints[1][0].x, eggPoints[1][0].y - 5, eggPoints[1][0].z);
+		glColor3f(eggPoints[N - 1][N - 1].xRGB, eggPoints[N - 1][N - 1].yRGB, eggPoints[N - 1][N - 1].zRGB);
+		glVertex3f(eggPoints[N - 1][N - 1].x, eggPoints[N - 1][N - 1].y - 5, eggPoints[N - 1][N - 1].z);
 
 
-			for (int i = 0; i < N / 2 + 1; i++) {
-				int pom = N - i;
-				for (int j = 0; j < N - 1; j++) {
-					if (i == 1) {
+		for (int i = 0; i < N / 2 + 1; i++) {
+			int pom = N - i;
+			for (int j = 0; j < N - 1; j++) {
+				if (i == 1) {
+					glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
+					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+					glColor3f(eggPoints[i][j + 1].xRGB, eggPoints[i][j + 1].yRGB, eggPoints[i][j + 1].zRGB);
+					glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
+					glColor3f(eggPoints[0][0].xRGB, eggPoints[0][0].yRGB, eggPoints[0][0].zRGB);
+					glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
+				}
+				else {
+					if (i != 0) {
 						glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
 						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glColor3f(eggPoints[i][j + 1].xRGB, eggPoints[i][j + 1].yRGB, eggPoints[i][j + 1].zRGB);
-						glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
-						glColor3f(eggPoints[0][0].xRGB, eggPoints[0][0].yRGB, eggPoints[0][0].zRGB);
-						glVertex3f(eggPoints[0][0].x, eggPoints[0][0].y - 5, eggPoints[0][0].z);
-					}
-					else {
-						if (i != 0) {
-							glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
-							glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-							glColor3f(eggPoints[i - 1][j].xRGB, eggPoints[i - 1][j].yRGB, eggPoints[i - 1][j].zRGB);
-							glVertex3f(eggPoints[i - 1][j].x, eggPoints[i - 1][j].y - 5, eggPoints[i - 1][j].z);
-							glColor3f(eggPoints[i - 1][j + 1].xRGB, eggPoints[i - 1][j + 1].yRGB, eggPoints[i - 1][j + 1].zRGB);
-							glVertex3f(eggPoints[i - 1][j + 1].x, eggPoints[i - 1][j + 1].y - 5, eggPoints[i - 1][j + 1].z);
-						}
-
-
-						glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
-						glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
-						glColor3f(eggPoints[i][j + 1].xRGB, eggPoints[i][j + 1].yRGB, eggPoints[i][j + 1].zRGB);
-						glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
+						glColor3f(eggPoints[i - 1][j].xRGB, eggPoints[i - 1][j].yRGB, eggPoints[i - 1][j].zRGB);
+						glVertex3f(eggPoints[i - 1][j].x, eggPoints[i - 1][j].y - 5, eggPoints[i - 1][j].z);
 						glColor3f(eggPoints[i - 1][j + 1].xRGB, eggPoints[i - 1][j + 1].yRGB, eggPoints[i - 1][j + 1].zRGB);
 						glVertex3f(eggPoints[i - 1][j + 1].x, eggPoints[i - 1][j + 1].y - 5, eggPoints[i - 1][j + 1].z);
 					}
-					if (pom != N) {
-						glColor3f(eggPoints[i][0].xRGB, eggPoints[i][0].yRGB, eggPoints[i][0].zRGB);
-						glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
-						glColor3f(eggPoints[pom][N - 1].xRGB, eggPoints[pom][N - 1].yRGB, eggPoints[pom][N - 1].zRGB);
-						glVertex3f(eggPoints[pom][N - 1].x, eggPoints[pom][N - 1].y - 5, eggPoints[pom][N - 1].z);
-						glColor3f(eggPoints[pom - 1][N - 1].xRGB, eggPoints[pom - 1][N - 1].yRGB, eggPoints[pom - 1][N - 1].zRGB);
-						glVertex3f(eggPoints[pom - 1][N - 1].x, eggPoints[pom - 1][N - 1].y - 5, eggPoints[pom - 1][N - 1].z);
 
 
-						glColor3f(eggPoints[i][0].xRGB, eggPoints[i][0].yRGB, eggPoints[i][0].zRGB);
-						glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
-						glColor3f(eggPoints[i + 1][0].xRGB, eggPoints[i + 1][0].yRGB, eggPoints[i + 1][0].zRGB);
-						glVertex3f(eggPoints[i + 1][0].x, eggPoints[i + 1][0].y - 5, eggPoints[i + 1][0].z);
-						glColor3f(eggPoints[pom - 1][N - 1].xRGB, eggPoints[pom - 1][N - 1].yRGB, eggPoints[pom - 1][N - 1].zRGB);
-						glVertex3f(eggPoints[pom - 1][N - 1].x, eggPoints[pom - 1][N - 1].y - 5, eggPoints[pom - 1][N - 1].z);
-					}
+					glColor3f(eggPoints[i][j].xRGB, eggPoints[i][j].yRGB, eggPoints[i][j].zRGB);
+					glVertex3f(eggPoints[i][j].x, eggPoints[i][j].y - 5, eggPoints[i][j].z);
+					glColor3f(eggPoints[i][j + 1].xRGB, eggPoints[i][j + 1].yRGB, eggPoints[i][j + 1].zRGB);
+					glVertex3f(eggPoints[i][j + 1].x, eggPoints[i][j + 1].y - 5, eggPoints[i][j + 1].z);
+					glColor3f(eggPoints[i - 1][j + 1].xRGB, eggPoints[i - 1][j + 1].yRGB, eggPoints[i - 1][j + 1].zRGB);
+					glVertex3f(eggPoints[i - 1][j + 1].x, eggPoints[i - 1][j + 1].y - 5, eggPoints[i - 1][j + 1].z);
+				}
+				if (pom != N) {
+					glColor3f(eggPoints[i][0].xRGB, eggPoints[i][0].yRGB, eggPoints[i][0].zRGB);
+					glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
+					glColor3f(eggPoints[pom][N - 1].xRGB, eggPoints[pom][N - 1].yRGB, eggPoints[pom][N - 1].zRGB);
+					glVertex3f(eggPoints[pom][N - 1].x, eggPoints[pom][N - 1].y - 5, eggPoints[pom][N - 1].z);
+					glColor3f(eggPoints[pom - 1][N - 1].xRGB, eggPoints[pom - 1][N - 1].yRGB, eggPoints[pom - 1][N - 1].zRGB);
+					glVertex3f(eggPoints[pom - 1][N - 1].x, eggPoints[pom - 1][N - 1].y - 5, eggPoints[pom - 1][N - 1].z);
+
+
+					glColor3f(eggPoints[i][0].xRGB, eggPoints[i][0].yRGB, eggPoints[i][0].zRGB);
+					glVertex3f(eggPoints[i][0].x, eggPoints[i][0].y - 5, eggPoints[i][0].z);
+					glColor3f(eggPoints[i + 1][0].xRGB, eggPoints[i + 1][0].yRGB, eggPoints[i + 1][0].zRGB);
+					glVertex3f(eggPoints[i + 1][0].x, eggPoints[i + 1][0].y - 5, eggPoints[i + 1][0].z);
+					glColor3f(eggPoints[pom - 1][N - 1].xRGB, eggPoints[pom - 1][N - 1].yRGB, eggPoints[pom - 1][N - 1].zRGB);
+					glVertex3f(eggPoints[pom - 1][N - 1].x, eggPoints[pom - 1][N - 1].y - 5, eggPoints[pom - 1][N - 1].z);
 				}
 			}
-			glEnd();
-			break;
+		}
+		glEnd();
+		break;
 	}
 
 }
@@ -402,37 +401,70 @@ void Sierpinski(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLint level) {
 	}
 }
 
+// angle of rotation for the camera direction
+float angle = 0.0;
+// actual vector representing the camera's direction
+float lx = 0.0f, lz = -1.0f;
+// XZ position of the camera
+float x2 = 0.0f, z2 = 5.0f;
+
+static float centerX = 0.0, centerY = 0.0, centerZ = 0.0;
+
+static bool zoombarrier = true;
+static int modelek = 1;
+
 void RenderScene(void) {
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	gluLookAt(viewer[0], viewer[1], viewer[2], 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(viewer[0], viewer[1], viewer[2], centerX, centerY, centerZ, 0.0, 1.0, 0.0);
+	//gluLookAt(x2, 1.0f, z2, x2 + lx, 1.0f, z2 + lz, 0.0f, 1.0f, 0.0f);
 	Axes();
 	viewer[0] = r * cos(theta)*cos(fi);
 	viewer[1] = r * sin(fi);
 	viewer[2] = r * sin(theta)*cos(fi);
-	
 
 	if (status == 1) {
 		//thetaY += delta_x * pix2angle;    // modyfikacja kąta obrotu o kat proporcjonalny
 		//thetaX += delta_y * pix2angle;
+
+
 		theta += delta_x * 0.05 * pix2angle;
 		fi += delta_y * 0.05 * pix2angle;
-		
 	}
 	else if (status == 2) {
 		//delta_z += delta_y * 0.01;
-		r += delta_y * 0.1;
+		if (zoombarrier == true) {
+			if (r < 7) {
+				r = 7;
+			}
+			else {
+				r += delta_y * 0.01;
+			}
+		}
+		else {
+			r += delta_y * 0.01;
+		}
+
 	}
-                            // do różnicy położeń kursora myszy
+	// do różnicy położeń kursora myszy
 
-	//glRotatef(thetaY, 0.0, 1.0, 0.0);  //obrót obiektu o nowy kąt
-	//glRotatef(thetaX, 1.0, 0.0, 0.0);  // do różnicy położeń kursora myszy
-	//glScalef(delta_z, delta_z, delta_z);
+//glRotatef(thetaY, 0.0, 1.0, 0.0);  //obrót obiektu o nowy kąt
+//glRotatef(thetaX, 1.0, 0.0, 0.0);  // do różnicy położeń kursora myszy
+//glScalef(delta_z, delta_z, delta_z);
 
-	//zakomentować niepotrzebne:
+//zakomentować niepotrzebne:
+	if (modelek == 1) {
+		Egg();
+		zoombarrier = true;
+	}
+	else {
+		Sierpinski(0.0, -3.0, 0.0, 8, 4);
+		zoombarrier = false;
+	}
 
-	//Egg();
-	Sierpinski(0.0, -3.0, 0.0, 8, 3); //koordynaty początkowe x y z, szerokość, poziom
+	//koordynaty początkowe x y z, szerokość, poziom
+	
 	//glColor3f(1.0f, 1.0f, 1.0f);
 	// Ustawienie koloru rysowania na biały
 
@@ -449,12 +481,49 @@ void keys(unsigned char key, int x, int y) {
 	if (key == '1') model = 1;
 	if (key == '2') model = 2;
 	if (key == '3') model = 3;
-	//if (key == 'w') viewer[0] += 0.5;
-	//if (key == 'a') viewer[1] +=0.5;
-	//if (key == 's') viewer[0] -=0.5;
-	//if (key == 'd') viewer[1] += 0.5;
-
+	if (key == '4') {
+		if (modelek == 1) modelek = 2;
+		else modelek = 1;
+	}
+	if (key == 'w') {
+		centerY += 0.1;
+	}
+	if (key == 's') {
+		centerY -= 0.1;
+	}
+	if (key == 'a') {
+		centerZ += 0.1;
+	}
+	if (key == 'd') {
+		centerZ -= 0.1;
+	}
 	RenderScene();
+}
+
+void processSpecialKeys(int key, int xx, int yy) {
+
+	float fraction = 0.1f;
+
+	switch (key) {
+	case GLUT_KEY_LEFT:
+		angle -= 0.01f;
+		lx = sin(angle);
+		lz = -cos(angle);
+		break;
+	case GLUT_KEY_RIGHT:
+		angle += 0.01f;
+		lx = sin(angle);
+		lz = -cos(angle);
+		break;
+	case GLUT_KEY_UP:
+		x2 += lx * fraction;
+		z2 += lz * fraction;
+		break;
+	case GLUT_KEY_DOWN:
+		x2 -= lx * fraction;
+		z2 -= lz * fraction;
+		break;
+	}
 }
 
 void MyInit(void) {
@@ -475,7 +544,7 @@ void ChangeSize(GLsizei horizontal, GLsizei vertical) {
 	gluPerspective(70, 1.0, 1.0, 30.0);
 
 	AspectRatio = (GLfloat)horizontal / (GLfloat)vertical;
-	if(horizontal <= vertical)
+	if (horizontal <= vertical)
 		glViewport(0, (vertical - horizontal) / 2, horizontal, horizontal);
 
 	else
@@ -486,7 +555,7 @@ void ChangeSize(GLsizei horizontal, GLsizei vertical) {
 
 void main(void) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(300, 300);
+	glutInitWindowSize(1000, 1000);
 	EggPtCount();
 	glutCreateWindow("Ćwiczenie 4");
 	glutDisplayFunc(RenderScene);
@@ -499,6 +568,8 @@ void main(void) {
 	// Ustala funkcję zwrotną odpowiedzialną za badanie stanu myszy
 
 	glutMotionFunc(Motion);
+	//glutKeyboardFunc(processNormalKeys);
+	//glutSpecialFunc(processSpecialKeys);
 	// Ustala funkcję zwrotną odpowiedzialną za badanie ruchu myszy
 
 	glutMainLoop();
