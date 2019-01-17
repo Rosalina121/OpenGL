@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Grafika komputerowa - WebGL</title>
+   <link rel="stylesheet" href="css/style.css">
+   <script src="js/matrix.js"></script>
+   <script src="js/main.js"></script>
+</head>
+<body>
+	<div>
+		<form class="rotationCheckboxes">
+			<input type="checkbox" id="rotateX"> Rotacja X&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" id="rotateY"> Rotacja Y&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" id="rotateZ"> Rotacja Z
+		</form>
+		<canvas id="glcanvas" width="500" height="300">Brak wsparcia dla elementu HTML canvas.</canvas>
+		<br />
+		<input type="button" value="Uruchom" onclick="runWebGL()"/>
+		<input type="button" value="Zamknij" onclick="self.close()"/> 
+   </div>
+</body>
+</html>
